@@ -15,15 +15,17 @@ import javax.persistence.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class FileEntity extends BaseEntity{
     @Column(name = "name")
-    private String name;
+    String name;
 
-    @Column(name = "path")
-    private String path;
+    @Column(name = "url")
+    String url;
 
     @Column(name = "extension")
-    private String extension;
+    String extension;
 
     @Column(name = "type")
     @Enumerated(value = EnumType.STRING)
-    private FileType fileType;
+    FileType fileType;
+
+
 }

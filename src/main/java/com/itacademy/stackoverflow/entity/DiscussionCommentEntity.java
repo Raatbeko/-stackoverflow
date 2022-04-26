@@ -1,26 +1,22 @@
 package com.itacademy.stackoverflow.entity;
-
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "user_roles")
+@Table(name = "discussion_comment")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
-@Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserRoleEntity extends BaseEntity {
+public class DiscussionCommentEntity extends BaseEntity{
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    UserEntity user;
+    @JoinColumn(name = "comment_id")
+    CommentEntity commentEntity;
 
     @ManyToOne
-    @JoinColumn(name = "role_id", nullable = false)
-    RoleEntity role;
-
+    @JoinColumn(name = "discussion_id")
+    DiscussionEntity discussionEntity;
 }

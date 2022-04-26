@@ -1,7 +1,9 @@
 package com.itacademy.stackoverflow.repository;
 
 import com.itacademy.stackoverflow.entity.CommentEntity;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface CommentRepository extends CrudRepository<CommentEntity,Long> {
+@Repository
+public interface CommentRepository extends JpaRepository<CommentEntity,Long> {
 }

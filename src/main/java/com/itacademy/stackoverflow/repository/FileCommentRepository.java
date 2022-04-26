@@ -1,9 +1,9 @@
 package com.itacademy.stackoverflow.repository;
 
-import com.itacademy.stackoverflow.entity.FileEntity;
+import com.itacademy.stackoverflow.entity.FileCommentEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface FileRepository extends JpaRepository<FileEntity,Long> {
+public interface FileCommentRepository extends JpaRepository<FileCommentEntity,Long> {
 }

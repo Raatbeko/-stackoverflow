@@ -1,8 +1,8 @@
 package com.itacademy.stackoverflow.service.impl;
 
-import com.itacademy.stackoverflow.dto.comment.request.CommentRequest;
-import com.itacademy.stackoverflow.dto.comment.response.CommentResponse;
-import com.itacademy.stackoverflow.service.CommentService;
+import com.itacademy.stackoverflow.dto.post.request.PostRequest;
+import com.itacademy.stackoverflow.dto.post.response.PostResponse;
+import com.itacademy.stackoverflow.service.PostService;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -13,20 +13,19 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class CommentServiceImpl implements CommentService {
-
+public class PostServiceImpl implements PostService {
     @Override
-    public CommentResponse save(CommentRequest t) {
+    public PostResponse save(PostRequest t) {
         return null;
     }
 
     @Override
-    public List<CommentResponse> getAll() {
+    public List<PostResponse> getAll() {
         return null;
     }
 
     @Override
-    public CommentResponse findById(Long id) {
+    public PostResponse findById(Long id) {
         return null;
     }
 }

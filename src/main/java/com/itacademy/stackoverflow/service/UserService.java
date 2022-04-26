@@ -1,4 +1,7 @@
 package com.itacademy.stackoverflow.service;
 
-public interface UserService {
+import com.itacademy.stackoverflow.dto.user.request.UserRequest;
+import com.itacademy.stackoverflow.dto.user.response.UserResponse;
+
+public interface UserService extends BaseService<UserResponse, UserRequest>{
 }
