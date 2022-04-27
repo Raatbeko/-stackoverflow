@@ -1,5 +1,7 @@
 package com.itacademy.stackoverflow.controller;
 
+import com.itacademy.stackoverflow.dto.comment.response.CommentResponse;
+import com.itacademy.stackoverflow.dto.post.response.PostResponse;
 import com.itacademy.stackoverflow.dto.user.request.UserForAutoRequest;
 import com.itacademy.stackoverflow.dto.user.request.UserRequest;
 import com.itacademy.stackoverflow.dto.user.response.UserResponse;
@@ -19,22 +21,32 @@ public class UserController {
     UserService userService;
 
     @PostMapping("/register")
-    public UserResponse register(@RequestBody UserRequest request){
+    public UserResponse register(@RequestBody UserRequest request) {
         return null;
     }
 
-    @PostMapping("/autorithe")
-    public String auto(@RequestBody UserForAutoRequest request){
+    @PostMapping("/auto")
+    public String auto(@RequestBody UserForAutoRequest request) {
         return null;
     }
 
-    @GetMapping("/get-all-user")
-    public List<UserResponse> getAll(){
+    @GetMapping("")
+    public List<UserResponse> getAll() {
         return null;
     }
 
     @GetMapping("/{id}")
-    public UserResponse getUserById(@PathVariable("id") Long id){
+    public UserResponse getUserById(@PathVariable("id") Long id) {
+        return null;
+    }
+
+    @GetMapping("/{id}/get-all-post")
+    public List<PostResponse> getAllPost(@PathVariable("id") Long id) {
+        return null;
+    }
+
+    @GetMapping("{id}/get-all-comment")
+    public List<CommentResponse> getAllComment(@PathVariable("id") Long id) {
         return null;
     }
 

@@ -23,4 +23,5 @@ public class PostEntity extends BaseEntity{
     @Column(name = "header",nullable = false)
     String header;
 
+
 }

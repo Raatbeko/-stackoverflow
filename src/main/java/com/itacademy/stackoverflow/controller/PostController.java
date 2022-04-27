@@ -22,23 +22,35 @@ public class PostController {
     @Autowired
     CommentService commentService;
 
-    @PostMapping("/add-post")
-    public PostResponse save(PostRequest request) {
+    @PostMapping("/{id-user}/add-post")
+    public PostResponse save(@PathVariable("id-user") Long id,
+                             @RequestBody PostRequest request) {
         return null;
     }
 
-    @GetMapping("/get-comment-post")
-    public List<CommentResponse> getPostComment(){
+    @GetMapping("{id}")
+    public PostResponse getById(@PathVariable("id") Long id) {
         return null;
     }
 
-    @DeleteMapping("/delete-post")
-    public String delete(PostRequest postRequest){
+    @GetMapping("{id-post}/comment")
+    public List<CommentResponse> getPostComment(@PathVariable("id-post") Long id) {
         return null;
     }
 
-    @GetMapping("get-all-post")
-    public List<PostResponse> getAll(){
+    @DeleteMapping("{id-post}/delete-post")
+    public String delete(@PathVariable("id-post")Long id,
+                         @RequestBody PostRequest postRequest) {
+        return null;
+    }
+
+    @GetMapping
+    public List<PostResponse> getAll() {
+        return null;
+    }
+
+    @PostMapping("add-comment")
+    public CommentResponse addComment() {
         return null;
     }
 }
