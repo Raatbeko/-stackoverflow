@@ -2,7 +2,7 @@ package com.itacademy.stackoverflow.controller;
 
 import com.itacademy.stackoverflow.dto.comment.response.CommentResponse;
 import com.itacademy.stackoverflow.dto.post.response.PostResponse;
-import com.itacademy.stackoverflow.dto.user.request.UserForAutoRequest;
+import com.itacademy.stackoverflow.dto.user.request.UserAuthRequest;
 import com.itacademy.stackoverflow.dto.user.request.UserRequest;
 import com.itacademy.stackoverflow.dto.user.response.UserResponse;
 import com.itacademy.stackoverflow.service.UserService;
@@ -26,7 +26,7 @@ public class UserController {
     }
 
     @PostMapping("/auto")
-    public String auto(@RequestBody UserForAutoRequest request) {
+    public String auto(@RequestBody UserAuthRequest request) {
         return null;
     }
 

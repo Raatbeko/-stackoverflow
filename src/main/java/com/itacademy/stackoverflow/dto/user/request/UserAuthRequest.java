@@ -1,4 +1,5 @@
-package com.itacademy.stackoverflow.dto.user.response;
+package com.itacademy.stackoverflow.dto.user.request;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -7,10 +8,9 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserResponse {
-    Long id;
+public class UserAuthRequest {
+    String loginOrEmail;
 
-    String login;
-
-    String email;
+    String password;
 }
+

@@ -12,6 +12,7 @@ import javax.persistence.Table;
 @Table(name = "file_posts")
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)

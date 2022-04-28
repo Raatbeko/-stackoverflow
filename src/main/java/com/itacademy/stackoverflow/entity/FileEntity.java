@@ -10,6 +10,7 @@ import javax.persistence.*;
 @Table(name = "files")
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -19,9 +20,6 @@ public class FileEntity extends BaseEntity{
 
     @Column(name = "url")
     String url;
-
-    @Column(name = "extension")
-    String extension;
 
     @Column(name = "type")
     @Enumerated(value = EnumType.STRING)

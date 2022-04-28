@@ -10,8 +10,6 @@ import lombok.experimental.FieldDefaults;
 @Setter
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class DiscussionRequest<T>{
+public class DiscussionRequest{
     String discussion;
-
-    T object;
 }
