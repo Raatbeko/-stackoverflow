@@ -1,12 +1,11 @@
 package com.itacademy.stackoverflow.dto.post.response;
 
+import com.itacademy.stackoverflow.dto.comment.response.CommentResponse;
 import com.itacademy.stackoverflow.dto.discussion.response.DiscussionResponse;
 import com.itacademy.stackoverflow.dto.file.response.FileResponse;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -17,9 +16,11 @@ import java.util.List;
 public class PostResponse{
     String header;
 
-    Long user_id;
+    Long userId;
 
-    List<DiscussionResponse> discussion = new ArrayList<>();
+    List<DiscussionResponse> discussion ;
 
-    List<FileResponse> file = new ArrayList<>();
+    List<FileResponse> file ;
+
+    List<CommentResponse> commentResponses;
 }

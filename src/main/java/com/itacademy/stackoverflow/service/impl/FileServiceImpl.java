@@ -18,10 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -35,6 +32,7 @@ public class FileServiceImpl implements FileService {
     public FileResponse save(FileRequest t) {
         File file;
         try {
+            String filename = UUID.randomUUID().toString();
             file = Files.createTempFile(System.currentTimeMillis() + "", Objects.requireNonNull(t.getMultipartFile().getOriginalFilename())
                     .substring(t.getMultipartFile().getOriginalFilename().length()-4)).toFile();
             t.getMultipartFile().transferTo(file);

@@ -13,16 +13,14 @@ import javax.persistence.*;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CommentEntity extends BaseEntity {
-    @Column(name = "Header")
-    String name;
 
     @ManyToOne
     @JoinColumn(name = "post_id",nullable = false)
-    PostEntity postEntity;
+    PostEntity post;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    UserEntity userEntity;
+    UserEntity user;
 
 
 }

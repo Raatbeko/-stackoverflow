@@ -9,7 +9,8 @@ import lombok.experimental.FieldDefaults;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class FileResponse {
-    Long id;
-    String url;
 
+    Long id;
+
+    String url;
 }

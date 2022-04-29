@@ -5,6 +5,7 @@ import com.itacademy.stackoverflow.dto.file.request.FileRequest;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,9 +15,11 @@ import java.util.List;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class PostRequest {
+    @NotNull
     String header;
 
-    Long  user_id;
+    @NotNull
+    Long userId;
 
     List<DiscussionRequest> discussionRequests = new ArrayList<>();
 

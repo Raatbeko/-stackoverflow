@@ -3,6 +3,7 @@ package com.itacademy.stackoverflow.service.impl;
 import com.itacademy.stackoverflow.dto.comment.request.CommentRequest;
 import com.itacademy.stackoverflow.dto.comment.response.CommentResponse;
 import com.itacademy.stackoverflow.dto.discussion.request.DiscussionRequest;
+import com.itacademy.stackoverflow.dto.discussion.response.DiscussionResponse;
 import com.itacademy.stackoverflow.dto.file.request.FileRequest;
 import com.itacademy.stackoverflow.dto.file.response.FileResponse;
 import com.itacademy.stackoverflow.entity.*;
@@ -17,6 +18,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -37,6 +39,10 @@ public class CommentServiceImpl implements CommentService {
 
     @Autowired
     FileCommentRepository fileCommentRepository;
+
+    @Autowired
+    LikeCommentRepository likeCommentRepository;
+
 
     @Override
     public CommentResponse save(CommentRequest commentRequest) {
@@ -60,17 +66,53 @@ public class CommentServiceImpl implements CommentService {
                             .fileEntity(FileMapper.INSTANCE.toFileResponse(fileResponse))
                             .build());
         }
+
+        commentRequest.setCountLike(likeCommentRepository.countLikeCommentEntityById(commentEntity.getId()));
+
         return CommentMapper.INSTANCE.toCommentResponse(commentRequest);
     }
 
     @Override
     public List<CommentResponse> getAll() {
-        return CommentMapper.INSTANCE.toCommentResponse(repository.findAll());
+        return null;
     }
 
     @Override
-    public CommentResponse findById(Long id) {
+    public List<CommentResponse> getByPostId(Long id) {
+        List<CommentResponse> commentResponse =  CommentMapper.INSTANCE.toCommentResponse(repository.findByPostId(id));
+        for (int i = 0; i < commentResponse.size(); i++) {
+            commentResponse.get(i)
+                    .setCountLike(likeCommentRepository
+                            .countLikeCommentEntityById(commentResponse.get(i).getId()));
 
+            List<DiscussionCommentEntity> discussionCommentEntities = discussionCommentRepository.findAll();
+            List<DiscussionResponse> discussionResponses = new ArrayList<>();
+
+            for (int i1 = 0; i1 < discussionCommentEntities.size(); i1++) {
+                DiscussionResponse discussion =
+                        DiscussionMapper.INSTANCE.toDiscussionResponse(
+                                discussionRepository.getById(discussionCommentRepository.getByCommentEntityId(CommentMapper.INSTANCE.toCommentRequest(commentResponse).getId())));
+                discussionResponses.add(discussion);
+            }
+            commentResponse.get(i).setDiscussion(discussionResponses);
+
+            List<FileCommentEntity> fileCommentEntities = fileCommentRepository.findAll();
+            List<FileResponse> fileResponses = new ArrayList<>();
+
+            for (int i1 = 0; i1 < fileCommentEntities.size(); i1++) {
+                FileResponse fileResponse =
+                        fileService.findById(fileCommentRepository.getByCommentEntityId(CommentMapper.INSTANCE.toCommentRequest(commentResponse).getId()));
+                fileResponses.add(fileResponse);
+            }
+            commentResponse.get(i).setMultipartFiles(fileResponses);
+
+        }
+        return commentResponse;
+    }
+
+
+    @Override
+    public CommentResponse findById(Long id) {
 
         return null;
     }

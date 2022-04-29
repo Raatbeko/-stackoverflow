@@ -20,11 +20,13 @@ import java.util.List;
 public class CommentResponse {
     Long id;
 
-    Long user_id;
+    Long userId;
 
     PostResponse post;
 
-    List<DiscussionResponse> discussionRequests = new ArrayList<>();
+    Long countLike;
+
+    List<DiscussionResponse> discussion = new ArrayList<>();
 
     List<FileResponse> multipartFiles = new ArrayList<>();
 }

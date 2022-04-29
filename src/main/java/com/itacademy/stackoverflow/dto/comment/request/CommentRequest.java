@@ -20,10 +20,12 @@ import java.util.List;
 public class CommentRequest {
 
     @NotNull
-    Long user_id;
+    Long userId;
 
     @NotNull
-    Long id;
+    Long postId;
+
+    Long countLike;
 
     List<DiscussionRequest> discussionRequests = new ArrayList<>();
 

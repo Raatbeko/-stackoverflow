@@ -8,6 +8,7 @@ import javax.persistence.*;
 @Table(name = "discussion_post")
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
