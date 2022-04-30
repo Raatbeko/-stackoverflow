@@ -6,6 +6,7 @@ import com.itacademy.stackoverflow.dto.file.response.FileResponse;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+
 import java.util.List;
 
 @Data
@@ -13,14 +14,18 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class PostResponse{
+public class PostResponse {
+    Long id;
+
     String header;
 
     Long userId;
 
-    List<DiscussionResponse> discussion ;
+    Long countLike;
 
-    List<FileResponse> file ;
+    List<DiscussionResponse> discussion;
+
+    List<FileResponse> file;
 
     List<CommentResponse> commentResponses;
 }

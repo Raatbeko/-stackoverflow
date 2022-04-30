@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface DiscussionPostRepository extends JpaRepository<DiscussionPostEntity,Long> {
-
-
+public interface DiscussionPostRepository extends JpaRepository<DiscussionPostEntity, Long> {
+    List<DiscussionPostEntity> findByPostEntityId(Long id);
 }

@@ -13,42 +13,37 @@ import com.itacademy.stackoverflow.mapper.DiscussionMapper;
 import com.itacademy.stackoverflow.mapper.FileMapper;
 import com.itacademy.stackoverflow.mapper.UserMapper;
 import com.itacademy.stackoverflow.repository.*;
-import com.itacademy.stackoverflow.service.CommentService;
-import com.itacademy.stackoverflow.service.FileService;
-import com.itacademy.stackoverflow.service.PostService;
-import com.itacademy.stackoverflow.service.UserService;
+import com.itacademy.stackoverflow.service.*;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@AllArgsConstructor
 public class PostServiceImpl implements PostService {
 
-    @Autowired
+    final
     PostRepository postRepository;
 
-    @Autowired
-    FilePostRepository filePostRepository;
+    final DiscussionPostService service;
 
-    @Autowired
-    DiscussionPostRepository discussionPostRepository;
+    final FilePostService filePostService;
 
-    @Autowired
-    FileService fileService;
-
-    @Autowired
-    DiscussionRepository discussionRepository;
-
-    @Autowired
+    final
     CommentService commentService;
 
-    @Autowired
+    final
     UserService userService;
+
+    final
+    LikePostRepository likePostRepository;
+
 
     @Override
     public PostResponse save(PostRequest postRequest) {
@@ -59,25 +54,16 @@ public class PostServiceImpl implements PostService {
                         .header(postRequest.getHeader())
                         .build());
         List<DiscussionRequest> discussionEntities = postRequest.getDiscussionRequests();
-        for (DiscussionRequest discussion : discussionEntities) {
-            DiscussionEntity discussionEntity1 = discussionRepository.save(DiscussionMapper.INSTANCE.toDiscussionRequest(discussion));
-            discussionPostRepository
-                    .save(DiscussionPostEntity.builder()
-                            .discussionEntity(discussionEntity1)
-                            .postEntity(postEntity).build());
-        }
-        List<FileRequest> fileRequests = postRequest.getFileRequests();
-        for (FileRequest fileRequest : fileRequests) {
-            FileResponse fileResponse = fileService.save(fileRequest);
-            filePostRepository
-                    .save(FilePostEntity.builder()
-                            .fileEntity(FileMapper.INSTANCE.toFileResponse(fileResponse))
-                            .postEntity(postEntity).build());
-        }
+
+        service.save(postRequest.getDiscussionRequests(), postEntity);
+
+        filePostService.save(postRequest.getFileRequests(), postEntity);
+
         return PostResponse.builder()
+                .id(postEntity.getId())
                 .discussion(DiscussionMapper.INSTANCE.toDiscussionResponse(discussionEntities))
                 .header(postEntity.getHeader())
-                .file(FileMapper.INSTANCE.toFileResponse(fileRequests))
+                .file(FileMapper.INSTANCE.toFileResponse(postRequest.getFileRequests()))
                 .userId(postEntity.getUserEntity().getId())
                 .build();
     }
@@ -93,8 +79,31 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostResponse> getPostByUserId(Long id) {
-
+    public PostResponse delete(Long id) {
         return null;
+    }
+
+    @Override
+    public List<PostResponse> getPostByUserId(Long id) {
+        List<PostEntity> postEntities = postRepository.findByUserEntityId(id);
+        List<PostResponse> postResponses = new ArrayList<>();
+
+        for (PostEntity postEntity : postEntities) {
+            postResponses.
+                    add(PostResponse.builder()
+                            .id(postEntity.getId())
+                            .header(postEntity.getHeader())
+                            .userId(postEntity.getId()).build());
+        }
+
+        for (PostResponse postResponse : postResponses) {
+            Long id1 = postResponse.getId();
+            postResponse.setCountLike(likePostRepository.countLikePostEntityById(id1));
+            postResponse.setCommentResponses(commentService.getByPostId(id1));
+            postResponse.setDiscussion(service.getByPostId(id1));
+            postResponse.setFile(filePostService.getByPostId(id1));
+        }
+
+        return postResponses;
     }
 }

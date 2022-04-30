@@ -80,4 +80,9 @@ public class FileServiceImpl implements FileService {
                 .url(fileEntity.getUrl())
                 .build();
     }
+
+    @Override
+    public FileResponse delete(Long id) {
+        return null;
+    }
 }

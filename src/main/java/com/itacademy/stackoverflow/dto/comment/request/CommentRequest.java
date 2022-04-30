@@ -1,7 +1,9 @@
 package com.itacademy.stackoverflow.dto.comment.request;
 
 import com.itacademy.stackoverflow.dto.discussion.request.DiscussionRequest;
+import com.itacademy.stackoverflow.dto.discussion.response.DiscussionResponse;
 import com.itacademy.stackoverflow.dto.file.request.FileRequest;
+import com.itacademy.stackoverflow.dto.file.response.FileResponse;
 import com.itacademy.stackoverflow.dto.post.response.PostResponse;
 import com.itacademy.stackoverflow.dto.user.response.UserResponse;
 import lombok.*;
@@ -25,9 +27,9 @@ public class CommentRequest {
     @NotNull
     Long postId;
 
-    Long countLike;
 
     List<DiscussionRequest> discussionRequests = new ArrayList<>();
 
     List<FileRequest> multipartFiles = new ArrayList<>();
+
 }

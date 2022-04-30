@@ -28,5 +28,5 @@ public interface CommentMapper {
 
      CommentResponse toCommentResponse(CommentRequest commentRequest);
 
-     CommentResponse toCommentRequest(List<CommentResponse> commentResponse);
+     CommentEntity toCommentRequest(CommentResponse commentResponse);
 }
