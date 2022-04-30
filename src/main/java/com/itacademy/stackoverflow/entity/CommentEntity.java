@@ -9,6 +9,7 @@ import javax.persistence.*;
 @Table(name = "comments")
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)

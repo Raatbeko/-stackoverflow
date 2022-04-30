@@ -22,7 +22,7 @@ public class CommentResponse {
 
     Long userId;
 
-    PostResponse post;
+    Long  postId;
 
     Long countLike;
 

@@ -43,10 +43,19 @@ public class CommentServiceImpl implements CommentService {
     @Autowired
     LikeCommentRepository likeCommentRepository;
 
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    PostRepository postRepository;
+
 
     @Override
     public CommentResponse save(CommentRequest commentRequest) {
-        CommentEntity commentEntity = repository.save(CommentMapper.INSTANCE.toCommentRequest(commentRequest));
+        CommentEntity commentEntity = repository
+                .save(CommentEntity.builder()
+                        .post(postRepository.getById(commentRequest.getPostId()))
+                        .user(userRepository.getById(commentRequest.getUserId())).build());
 
         for (DiscussionRequest discussionRequest : commentRequest.getDiscussionRequests()) {
             DiscussionEntity discussionEntity = discussionRepository.save(DiscussionMapper.INSTANCE.toDiscussionRequest(discussionRequest));
@@ -79,7 +88,16 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<CommentResponse> getByPostId(Long id) {
-        List<CommentResponse> commentResponse =  CommentMapper.INSTANCE.toCommentResponse(repository.findByPostId(id));
+        List<CommentEntity> commentEntities = repository.findByPostId(id);
+        List<CommentResponse> commentResponse = new ArrayList<>();
+        for (CommentEntity commentEntity : commentEntities) {
+            commentResponse
+                    .add(CommentResponse.builder()
+                            .id(commentEntity.getId())
+                            .userId(commentEntity.getUser().getId())
+                            .postId(commentEntity.getPost().getId())
+                            .build());
+        }
         for (int i = 0; i < commentResponse.size(); i++) {
             commentResponse.get(i)
                     .setCountLike(likeCommentRepository
