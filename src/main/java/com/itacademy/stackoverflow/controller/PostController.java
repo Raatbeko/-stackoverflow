@@ -6,6 +6,7 @@ import com.itacademy.stackoverflow.dto.post.response.PostResponse;
 import com.itacademy.stackoverflow.service.CommentService;
 import com.itacademy.stackoverflow.service.PostService;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,18 +15,19 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/post")
+@AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class PostController {
-    @Autowired
+    final
     PostService postService;
 
-    @Autowired
+    final
     CommentService commentService;
 
-    @PostMapping("/{id-user}/add-post")
-    public PostResponse save(@PathVariable("id-user") Long id,
-                             @RequestBody PostRequest request) {
-        return null;
+
+    @PostMapping("/add-post")
+    public PostResponse save(@RequestBody PostRequest request) {
+        return postService.save(request);
     }
 
     @GetMapping("{id}")
@@ -33,10 +35,6 @@ public class PostController {
         return null;
     }
 
-    @GetMapping("{id-post}/comment")
-    public List<CommentResponse> getPostComment(@PathVariable("id-post") Long id) {
-        return null;
-    }
 
     @DeleteMapping("{id-post}/delete-post")
     public String delete(@PathVariable("id-post")Long id,

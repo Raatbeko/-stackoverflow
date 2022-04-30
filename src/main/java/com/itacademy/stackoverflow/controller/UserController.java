@@ -5,8 +5,11 @@ import com.itacademy.stackoverflow.dto.post.response.PostResponse;
 import com.itacademy.stackoverflow.dto.user.request.UserAuthRequest;
 import com.itacademy.stackoverflow.dto.user.request.UserRequest;
 import com.itacademy.stackoverflow.dto.user.response.UserResponse;
+import com.itacademy.stackoverflow.service.PostService;
 import com.itacademy.stackoverflow.service.UserService;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,19 +18,23 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/users")
+@AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserController {
-    @Autowired
-    UserService userService;
+    final UserService userService;
+
+    final PostService service;
+
 
     @PostMapping("/register")
     public UserResponse register(@RequestBody UserRequest request) {
-        return null;
+        return userService.save(request);
     }
 
+    @SneakyThrows
     @PostMapping("/auto")
     public String auto(@RequestBody UserAuthRequest request) {
-        return null;
+        return userService.getToken(request);
     }
 
     @GetMapping("")
@@ -46,8 +53,8 @@ public class UserController {
     }
 
     @GetMapping("{id}/get-all-comment")
-    public List<CommentResponse> getAllComment(@PathVariable("id") Long id) {
-        return null;
+    public List<PostResponse> getAllComment(@PathVariable("id") Long id) {
+        return service.getPostByUserId(id);
     }
 
 }
