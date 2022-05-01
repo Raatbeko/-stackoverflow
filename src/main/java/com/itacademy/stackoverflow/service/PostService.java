@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface PostService extends BaseService<PostResponse, PostRequest>{
     List<PostResponse> getPostByUserId(Long id);
+
+    List<PostResponse> searchPostByHeader(String name);
 }

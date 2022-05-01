@@ -23,7 +23,7 @@ import java.util.List;
 public class CommentServiceImpl implements CommentService {
 
     final
-    CommentRepository repository;
+    CommentRepository commentRepository;
 
     final
     DiscussionCommentServiceImpl discussionCommentService;
@@ -42,7 +42,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public CommentResponse save(CommentRequest commentRequest) {
-        CommentEntity commentEntity = repository
+        CommentEntity commentEntity = commentRepository
                 .save(CommentEntity.builder()
                         .post(postRepository.getById(commentRequest.getPostId()))
                         .user(userRepository.getById(commentRequest.getUserId())).build());
@@ -65,7 +65,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<CommentResponse> getByPostId(Long id) {
-        List<CommentEntity> commentEntities = repository.findByPostId(id);
+        List<CommentEntity> commentEntities = commentRepository.findByPostId(id);
         List<CommentResponse> commentResponse = new ArrayList<>();
         for (CommentEntity commentEntity : commentEntities) {
             commentResponse
@@ -94,7 +94,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public List<CommentResponse> getAllByUserId(Long id) {
 
-        List<CommentEntity> commentEntities = repository.findByUserId(id);
+        List<CommentEntity> commentEntities = commentRepository.findByUserId(id);
         List<CommentResponse> commentResponse = new ArrayList<>();
 
         for (CommentEntity commentEntity : commentEntities) {
@@ -125,14 +125,26 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public CommentResponse findById(Long id) {
-        CommentEntity commentEntity = repository.getById(id);
+        CommentEntity commentEntity = commentRepository.getById(id);
         return CommentResponse.builder().build();
     }
 
     @Override
     public CommentResponse delete(Long id) {
-        return null;
+        CommentEntity commentEntity = commentRepository.getById(id);
+        discussionCommentService.deleteAllDiscussionByCommentId(commentEntity.getId());
+        commentService.deleteAllFileByPostId(commentEntity.getId());
+        commentRepository.delete(commentEntity);
+        return CommentResponse.builder().build();
     }
 
+    @Override
+    public Boolean deleteAllCommentsByPostId(Long id) {
+        List<CommentEntity> commentEntities = commentRepository.findAllCommentsByPostId(id);
+        for (CommentEntity commentEntity: commentEntities){
+            commentRepository.delete(commentEntity);
+        }
+        return true;
+    }
 
 }

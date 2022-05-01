@@ -129,4 +129,28 @@ public class PostServiceImpl implements PostService {
 
         return postResponses;
     }
+
+    @Override
+    public List<PostResponse> searchPostByHeader(String header) {
+        List<PostEntity> postEntities = postRepository.searchByHeader(header);
+        List<PostResponse> postResponses = new ArrayList<>();
+
+        for (PostEntity postEntity : postEntities) {
+            postResponses.
+                    add(PostResponse.builder()
+                            .id(postEntity.getId())
+                            .header(postEntity.getHeader())
+                            .userId(postEntity.getId()).build());
+        }
+
+        for (PostResponse postResponse : postResponses) {
+            Long id1 = postResponse.getId();
+            postResponse.setCountLike(likePostRepository.countLikePostEntityById(id1));
+            postResponse.setCommentResponses(commentService.getByPostId(id1));
+            postResponse.setDiscussion(discussionPostService.getByPostId(id1));
+            postResponse.setFile(filePostService.getByPostId(id1));
+        }
+
+        return postResponses;
+    }
 }

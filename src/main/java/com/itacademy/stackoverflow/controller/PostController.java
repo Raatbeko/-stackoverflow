@@ -2,9 +2,12 @@ package com.itacademy.stackoverflow.controller;
 
 import com.itacademy.stackoverflow.dto.comment.request.CommentRequest;
 import com.itacademy.stackoverflow.dto.comment.response.CommentResponse;
+import com.itacademy.stackoverflow.dto.like.request.LikePostRequest;
+import com.itacademy.stackoverflow.dto.like.response.LikePostResponse;
 import com.itacademy.stackoverflow.dto.post.request.PostRequest;
 import com.itacademy.stackoverflow.dto.post.response.PostResponse;
 import com.itacademy.stackoverflow.service.CommentService;
+import com.itacademy.stackoverflow.service.LikePostService;
 import com.itacademy.stackoverflow.service.PostService;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -25,6 +28,8 @@ public class PostController {
     final
     CommentService commentService;
 
+    final LikePostService likePostService;
+
 
     @PostMapping("/add-post")
     public PostResponse save(@RequestBody PostRequest request) {
@@ -37,9 +42,13 @@ public class PostController {
     }
 
 
+    @DeleteMapping("{id-comment}/delete-comment")
+    public CommentResponse deleteComment(@PathVariable("id-comment") Long id){
+        return commentService.delete(id);
+    }
+
     @DeleteMapping("{id-post}/delete-post")
-    public PostResponse delete(@PathVariable("id-post") Long id,
-                               @RequestBody PostRequest postRequest) {
+    public PostResponse deletePost(@PathVariable("id-post") Long id) {
         return postService.delete(id);
     }
 
@@ -52,4 +61,21 @@ public class PostController {
     public CommentResponse addComment(@RequestBody CommentRequest commentRequest) {
         return commentService.save(commentRequest);
     }
+
+    @GetMapping("/search")
+    public List<PostResponse> search(String header){
+        return postService.searchPostByHeader(header);
+    }
+//
+//    @PostMapping("/like")
+//    public LikePostResponse addLike(LikePostRequest likePostRequest){
+//        return likePostService.addLike(likePostRequest);
+//    }
+//
+//    @DeleteMapping("/like")
+//    public LikePostResponse deleteLike(LikePostRequest likePostRequest){
+//        return likePostService.deleteLike(likePostRequest);
+//    }
+
+
 }
