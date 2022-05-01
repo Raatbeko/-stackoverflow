@@ -52,6 +52,12 @@ public class DiscussionCommentServiceImpl implements DiscussionCommentService {
 
     @Override
     public Boolean deleteAllDiscussionByCommentId(Long id) {
-        return null;
+        List<DiscussionCommentEntity> discussionCommentEntities = discussionCommentRepository.findAllDiscussionByCommentEntityId(id);
+        for (DiscussionCommentEntity discussionCommentEntity: discussionCommentEntities) {
+            DiscussionEntity discussionEntity = discussionRepository.getById(discussionCommentEntity.getDiscussionEntity().getId());
+            discussionCommentRepository.delete(discussionCommentEntity);
+            discussionRepository.delete(discussionEntity);
+        }
+        return true;
     }
 }

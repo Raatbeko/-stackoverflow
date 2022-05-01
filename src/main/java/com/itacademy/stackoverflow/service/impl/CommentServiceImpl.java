@@ -8,6 +8,7 @@ import com.itacademy.stackoverflow.entity.*;
 import com.itacademy.stackoverflow.mapper.DiscussionMapper;
 import com.itacademy.stackoverflow.repository.*;
 import com.itacademy.stackoverflow.service.CommentService;
+import com.itacademy.stackoverflow.service.DiscussionCommentService;
 import com.itacademy.stackoverflow.service.FileCommentService;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -26,9 +27,9 @@ public class CommentServiceImpl implements CommentService {
     CommentRepository repository;
 
     final
-    DiscussionCommentServiceImpl discussionCommentService;
+    DiscussionCommentService discussionCommentService;
 
-    final FileCommentService commentService;
+    final FileCommentService fileCommentService;
 
     final
     LikeCommentRepository likeCommentRepository;
@@ -48,7 +49,7 @@ public class CommentServiceImpl implements CommentService {
                         .user(userRepository.getById(commentRequest.getUserId())).build());
         discussionCommentService.save(commentRequest.getDiscussionRequests(), commentEntity);
 
-        List<FileResponse> fileResponses = commentService.save(commentRequest.getMultipartFiles(), commentEntity);
+        List<FileResponse> fileResponses = fileCommentService.save(commentRequest.getMultipartFiles(), commentEntity);
 
         return CommentResponse.builder()
                 .postId(commentRequest.getPostId())
@@ -85,11 +86,12 @@ public class CommentServiceImpl implements CommentService {
 
             commentResponse.get(i).setDiscussion(discussionResponses);
 
-            commentResponse.get(i).setMultipartFiles(commentService.getByCommentId(commentResponse.get(i).getId()));
+            commentResponse.get(i).setMultipartFiles(fileCommentService.getByCommentId(commentResponse.get(i).getId()));
 
         }
         return commentResponse;
     }
+
 
     @Override
     public List<CommentResponse> getByUserId(Long id) {
@@ -115,7 +117,7 @@ public class CommentServiceImpl implements CommentService {
 
             commentResponse.get(i).setDiscussion(discussionResponses);
 
-            commentResponse.get(i).setMultipartFiles(commentService.getByCommentId(commentResponse.get(i).getId()));
+            commentResponse.get(i).setMultipartFiles(fileCommentService.getByCommentId(commentResponse.get(i).getId()));
 
         }
 
@@ -131,8 +133,20 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public CommentResponse delete(Long id) {
-        return null;
+        CommentEntity commentEntity = repository.getById(id);
+        discussionCommentService.deleteAllDiscussionByCommentId(commentEntity.getId());
+        fileCommentService.deleteAllFileByCommentId(commentEntity.getId());
+        repository.delete(commentEntity);
+        return CommentResponse.builder().build();
     }
 
+    @Override
+    public Boolean deleteAllCommentsByPostId(Long id) {
+        List<CommentEntity> commentEntities = repository.findAllCommentsByPostId(id);
+        for (CommentEntity commentEntity: commentEntities){
+             repository.delete(commentEntity);
+        }
+        return true;
+    }
 
 }

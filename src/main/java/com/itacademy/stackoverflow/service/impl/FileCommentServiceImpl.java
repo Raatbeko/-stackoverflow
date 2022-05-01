@@ -51,7 +51,13 @@ public class FileCommentServiceImpl implements FileCommentService {
     }
 
     @Override
-    public Boolean deleteAllFileByPostId(Long id) {
-        return null;
+    public  Boolean deleteAllFileByCommentId(Long id) {
+        List<FileCommentEntity> fileCommentEntities = fileCommentRepository.findAllFileByCommentEntityId(id);
+        for (FileCommentEntity fileCommentEntity : fileCommentEntities){
+            FileEntity fileEntity = fileRepository.getById(fileCommentEntity.getFileEntity().getId());
+            fileCommentRepository.delete(fileCommentEntity);
+            fileRepository.delete(fileEntity);
+        }
+        return true;
     }
 }

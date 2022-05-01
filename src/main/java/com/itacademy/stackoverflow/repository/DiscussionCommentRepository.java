@@ -14,6 +14,6 @@ import java.util.List;
 public interface DiscussionCommentRepository extends JpaRepository<DiscussionCommentEntity,Long> {
     @Query(nativeQuery = true,value = "select d.duscussion_id from discussion_comment d where d.comment_id =:id")
     Long getByCommentEntityId(Long id);
-
+    List<DiscussionCommentEntity> findAllDiscussionByCommentEntityId(Long id);
     List<DiscussionCommentEntity> findByCommentEntityId(Long id);
 }

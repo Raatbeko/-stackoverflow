@@ -11,7 +11,7 @@ import java.util.List;
 public interface FileCommentRepository extends JpaRepository<FileCommentEntity,Long> {
     @Query(nativeQuery = true,value = "select f.file_id from file_comment f where f.comment_id =:id")
     Long getByCommentEntityId(Long id);
-
+    List<FileCommentEntity> findAllFileByCommentEntityId(Long id);
     List<FileCommentEntity> findByCommentEntityId(Long id);
 
 
