@@ -9,7 +9,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "file_posts")
+@Table(name = "file_comment")
 @Getter
 @Setter
 @Builder
@@ -18,7 +18,7 @@ import javax.persistence.Table;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class FileCommentEntity extends BaseEntity {
     @ManyToOne
-    @JoinColumn(name = "post_id")
+    @JoinColumn(name = "comment_id")
     CommentEntity commentEntity;
 
     @ManyToOne
