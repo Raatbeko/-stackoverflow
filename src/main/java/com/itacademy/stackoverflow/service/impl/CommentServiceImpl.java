@@ -92,7 +92,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<CommentResponse> getByUserId(Long id) {
+    public List<CommentResponse> getAllByUserId(Long id) {
 
         List<CommentEntity> commentEntities = repository.findByUserId(id);
         List<CommentResponse> commentResponse = new ArrayList<>();

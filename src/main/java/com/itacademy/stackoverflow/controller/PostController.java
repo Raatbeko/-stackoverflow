@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/post")
+@RequestMapping("/posts")
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class PostController {
@@ -33,7 +33,7 @@ public class PostController {
 
     @GetMapping("{id}")
     public PostResponse getById(@PathVariable("id") Long id) {
-        return null;
+        return postService.findById(id);
     }
 
 

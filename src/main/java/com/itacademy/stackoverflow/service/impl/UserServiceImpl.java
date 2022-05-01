@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService {
             throw new EmailNotBeEmptyException("email is empty", HttpStatus.valueOf("EMAIL_NOT_BE_EMPTY"));
         UserEntity userEntity = userRepository
                 .save(UserEntity.builder()
-                        .name(t.getLogin())
+                        .login(t.getLogin())
                         .email(t.getEmail())
                         .password(passwordEncoder.encode(t.getPassword()))
                         .isActive(true)
@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService {
         return UserResponse.builder()
                 .email(userEntity.getEmail())
                 .id(userEntity.getId())
-                .login(userEntity.getName())
+                .login(userEntity.getLogin())
                 .build();
     }
 
@@ -65,7 +65,7 @@ public class UserServiceImpl implements UserService {
         boolean isMatches = passwordEncoder.matches(request.getPassword(), userEntity.getPassword());
         if (isMatches) {
             return "Basic " + new String(Base64.getEncoder()
-                    .encode((userEntity.getName() + ":" + request.getPassword()).getBytes()));
+                    .encode((userEntity.getLogin() + ":" + request.getPassword()).getBytes()));
         } else {
             throw new UserSignInException("Неправильный логин или пароль!", HttpStatus.NOT_FOUND);
         }

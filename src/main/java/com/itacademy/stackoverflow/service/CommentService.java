@@ -8,5 +8,5 @@ import java.util.List;
 public interface CommentService extends BaseService<CommentResponse, CommentRequest> {
     List<CommentResponse> getByPostId(Long id);
 
-    List<CommentResponse> getByUserId(Long id);
+    List<CommentResponse> getAllByUserId(Long id);
 }
