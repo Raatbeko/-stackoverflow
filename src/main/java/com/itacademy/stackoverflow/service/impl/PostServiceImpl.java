@@ -21,7 +21,9 @@ import org.springframework.stereotype.Service;
 
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -70,7 +72,25 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<PostResponse> getAll() {
-        return null;
+        List<PostEntity> postEntities = postRepository.findAll();
+        List<PostResponse> postResponses = new ArrayList<>();
+        for (PostEntity postEntity : postEntities) {
+            postResponses.
+                    add(PostResponse.builder()
+                            .id(postEntity.getId())
+                            .header(postEntity.getHeader())
+                            .userId(postEntity.getId()).build());
+        }
+        for (PostResponse postResponse : postResponses) {
+            postResponse.setCountLike(likePostRepository.countLikePostEntityById(postResponse.getId()));
+            postResponse.setCommentResponses(commentService.getByPostId(postResponse.getId()));
+            postResponse.setDiscussion(service.getByPostId(postResponse.getId()));
+            postResponse.setFile(filePostService.getByPostId(postResponse.getId()));
+        }
+
+        return postResponses.stream()
+                .sorted(Comparator.comparing(PostResponse::getCountLike))
+                .collect(Collectors.toList());
     }
 
     @Override

@@ -10,7 +10,6 @@ import com.itacademy.stackoverflow.exception.FileNotFoundException;
 import com.itacademy.stackoverflow.repository.FileRepository;
 import com.itacademy.stackoverflow.service.FileService;
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

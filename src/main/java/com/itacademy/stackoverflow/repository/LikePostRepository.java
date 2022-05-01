@@ -7,4 +7,6 @@ public interface LikePostRepository extends JpaRepository<LikePostEntity,Long> {
 
     Long countLikePostEntityById(Long id);
 
+    LikePostEntity getByPostEntityId(Long id);
+
 }

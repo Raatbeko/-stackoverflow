@@ -51,9 +51,14 @@ class CustomWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf().disable()
                 .authorizeRequests()
-
                 .antMatchers(HttpMethod.POST, "users/register").permitAll()
-                .antMatchers(HttpMethod.POST,"post/add-post").hasRole("USER")
+                .antMatchers(HttpMethod.POST, "users/auto").permitAll()
+                .antMatchers(HttpMethod.GET, "users/{id}").hasRole("USER")
+                .antMatchers(HttpMethod.GET, "users/{id}/get-all-post").hasRole("USER")
+                .antMatchers(HttpMethod.POST, "users/{id}/get-all-comment").hasRole("USER")
+                .antMatchers(HttpMethod.GET,"post/{id}").permitAll()
+                .antMatchers(HttpMethod.GET,"post/").permitAll()
+                .antMatchers(HttpMethod.POST,"post/add-comment").hasRole("USER")
                 .and()
                 .httpBasic();
     }

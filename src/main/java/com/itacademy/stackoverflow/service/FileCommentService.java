@@ -9,7 +9,7 @@ import java.util.List;
 public interface FileCommentService {
     List<FileResponse> save(List<FileRequest> discussionEntity, CommentEntity commentEntity);
 
-    List<FileResponse> getByPostId(Long id);
+    List<FileResponse> getByCommentId(Long id);
 
     Boolean deleteAllFileByPostId(Long id);
 }

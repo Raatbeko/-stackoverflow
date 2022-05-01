@@ -1,4 +1,4 @@
-package com.itacademy.stackoverflow.dto.like.request;
+package com.itacademy.stackoverflow.dto.like.response;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -8,8 +8,8 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class LikeCommentRequest {
-    Long userId;
+public class LikePostResponse {
+    Long post_id;
 
-    Long commentId;
+    Long count_like;
 }
