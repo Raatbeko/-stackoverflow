@@ -2,6 +2,7 @@ package com.itacademy.stackoverflow.service.impl;
 
 import com.itacademy.stackoverflow.dto.file.request.FileRequest;
 import com.itacademy.stackoverflow.dto.file.response.FileResponse;
+import com.itacademy.stackoverflow.entity.FileCommentEntity;
 import com.itacademy.stackoverflow.entity.FileEntity;
 import com.itacademy.stackoverflow.entity.FilePostEntity;
 import com.itacademy.stackoverflow.entity.PostEntity;
@@ -53,6 +54,12 @@ public class FilePostServiceImpl implements FilePostService {
 
     @Override
     public Boolean deleteAllFileByPostId(Long id) {
+        List<FilePostEntity> filePostEntities = filePostRepository.findAllFileByPostEntityId(id);
+        for (FilePostEntity filePostEntity :filePostEntities){
+            FileEntity fileEntity = fileRepository.getById(filePostEntity.getFileEntity().getId());
+            filePostRepository.delete(filePostEntity);
+            fileRepository.delete(fileEntity);
+        }
         return null;
     }
 }

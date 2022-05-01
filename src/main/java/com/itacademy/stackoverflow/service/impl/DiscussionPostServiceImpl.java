@@ -51,7 +51,13 @@ public class DiscussionPostServiceImpl implements DiscussionPostService {
     }
 
     @Override
-    public Boolean deleteAllDiscussionByPostId(Long id) {
-        return null;
+    public  Boolean deleteAllDiscussionByPostId(Long id) {
+        List<DiscussionPostEntity> discussionPostEntities = discussionPostRepository.findAllDiscussionByPostEntityId(id);
+        for (DiscussionPostEntity discussionPostEntity : discussionPostEntities) {
+            DiscussionEntity discussionEntity = discussionRepository.getById(discussionPostEntity.getDiscussionEntity().getId());
+            discussionPostRepository.delete(discussionPostEntity);
+            discussionRepository.delete(discussionEntity);
+        }
+        return true;
     }
 }

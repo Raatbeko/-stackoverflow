@@ -33,7 +33,7 @@ public class PostServiceImpl implements PostService {
     final
     PostRepository postRepository;
 
-    final DiscussionPostService service;
+    final DiscussionPostService discussionPostService;
 
     final FilePostService filePostService;
 
@@ -57,7 +57,7 @@ public class PostServiceImpl implements PostService {
                         .build());
         List<DiscussionRequest> discussionEntities = postRequest.getDiscussionRequests();
 
-        service.save(postRequest.getDiscussionRequests(), postEntity);
+        discussionPostService.save(postRequest.getDiscussionRequests(), postEntity);
 
         filePostService.save(postRequest.getFileRequests(), postEntity);
 
@@ -84,7 +84,7 @@ public class PostServiceImpl implements PostService {
         for (PostResponse postResponse : postResponses) {
             postResponse.setCountLike(likePostRepository.countLikePostEntityById(postResponse.getId()));
             postResponse.setCommentResponses(commentService.getByPostId(postResponse.getId()));
-            postResponse.setDiscussion(service.getByPostId(postResponse.getId()));
+            postResponse.setDiscussion(discussionPostService.getByPostId(postResponse.getId()));
             postResponse.setFile(filePostService.getByPostId(postResponse.getId()));
         }
 
@@ -100,7 +100,11 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostResponse delete(Long id) {
-        return null;
+        PostEntity postEntity = postRepository.getById(id);
+        discussionPostService.deleteAllDiscussionByPostId(postEntity.getId());
+        filePostService.deleteAllFileByPostId(postEntity.getId());
+        commentService.deleteAllCommentsByPostId(postEntity.getId());
+        return PostResponse.builder().build();
     }
 
     @Override
@@ -120,7 +124,7 @@ public class PostServiceImpl implements PostService {
             Long id1 = postResponse.getId();
             postResponse.setCountLike(likePostRepository.countLikePostEntityById(id1));
             postResponse.setCommentResponses(commentService.getByPostId(id1));
-            postResponse.setDiscussion(service.getByPostId(id1));
+            postResponse.setDiscussion(discussionPostService.getByPostId(id1));
             postResponse.setFile(filePostService.getByPostId(id1));
         }
 

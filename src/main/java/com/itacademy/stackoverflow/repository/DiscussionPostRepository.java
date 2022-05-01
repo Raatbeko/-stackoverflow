@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface DiscussionPostRepository extends JpaRepository<DiscussionPostEntity, Long> {
     List<DiscussionPostEntity> findByPostEntityId(Long id);
+    List<DiscussionPostEntity> findAllDiscussionByPostEntityId(Long id);
 }
