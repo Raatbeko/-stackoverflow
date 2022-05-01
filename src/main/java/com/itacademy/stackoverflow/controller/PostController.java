@@ -1,5 +1,6 @@
 package com.itacademy.stackoverflow.controller;
 
+import com.itacademy.stackoverflow.dto.comment.request.CommentRequest;
 import com.itacademy.stackoverflow.dto.comment.response.CommentResponse;
 import com.itacademy.stackoverflow.dto.post.request.PostRequest;
 import com.itacademy.stackoverflow.dto.post.response.PostResponse;
@@ -37,18 +38,18 @@ public class PostController {
 
 
     @DeleteMapping("{id-post}/delete-post")
-    public String delete(@PathVariable("id-post")Long id,
-                         @RequestBody PostRequest postRequest) {
-        return null;
+    public PostResponse delete(@PathVariable("id-post") Long id,
+                               @RequestBody PostRequest postRequest) {
+        return postService.delete(id);
     }
 
     @GetMapping
     public List<PostResponse> getAll() {
-        return null;
+        return postService.getAll();
     }
 
-    @PostMapping("add-comment")
-    public CommentResponse addComment() {
-        return null;
+    @PostMapping("/add-comment")
+    public CommentResponse addComment(@RequestBody CommentRequest commentRequest) {
+        return commentService.save(commentRequest);
     }
 }

@@ -9,7 +9,6 @@ import java.util.List;
 
 public interface PostMapper {
 
-    UserServiceImpl user = new UserServiceImpl();
 
     PostMapper INSTANCE = Mappers.getMapper(PostMapper.class);
 

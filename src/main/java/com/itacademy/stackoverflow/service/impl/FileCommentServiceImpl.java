@@ -41,7 +41,7 @@ public class FileCommentServiceImpl implements FileCommentService {
     }
 
     @Override
-    public List<FileResponse> getByPostId(Long id) {
+    public List<FileResponse> getByCommentId(Long id) {
         List<FileResponse> fileResponses = new ArrayList<>();
         List<FileCommentEntity> commentEntities = fileCommentRepository.findByCommentEntityId(id);
         for (FileCommentEntity commentEntity : commentEntities) {

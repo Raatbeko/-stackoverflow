@@ -8,8 +8,8 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class LikeCommentRequest {
-    Long userId;
+public class LikePostRequest {
+    Long postId;
 
-    Long commentId;
+    Long userId;
 }

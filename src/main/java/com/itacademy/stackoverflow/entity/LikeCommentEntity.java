@@ -9,6 +9,7 @@ import javax.persistence.*;
 @Table(name = "like_comments")
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
