@@ -21,7 +21,6 @@ import java.util.List;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserController {
-
     final UserService userService;
 
     final PostService service;
@@ -38,19 +37,19 @@ public class UserController {
         return userService.getToken(request);
     }
 
-    @GetMapping
+    @GetMapping("")
     public List<UserResponse> getAll() {
-        return userService.getAll();
+        return null;
     }
 
     @GetMapping("/{id}")
     public UserResponse getUserById(@PathVariable("id") Long id) {
-        return userService.findById(id);
+        return null;
     }
 
     @GetMapping("/{id}/get-all-post")
     public List<PostResponse> getAllPost(@PathVariable("id") Long id) {
-        return service.getPostByUserId(id);
+        return null;
     }
 
     @GetMapping("{id}/get-all-comment")

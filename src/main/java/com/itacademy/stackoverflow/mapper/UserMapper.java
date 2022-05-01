@@ -6,8 +6,7 @@ import com.itacademy.stackoverflow.dto.user.request.UserRequest;
 import com.itacademy.stackoverflow.dto.user.response.UserResponse;
 import com.itacademy.stackoverflow.entity.UserEntity;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Mappings;
+
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;

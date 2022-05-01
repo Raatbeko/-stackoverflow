@@ -17,7 +17,7 @@ import javax.persistence.Table;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserEntity extends BaseEntity {
     @Column(name = "user_name",nullable = false,unique = true)
-    String name;
+    String login;
 
     @Column(name = "email",nullable = false,unique = true)
     String email;

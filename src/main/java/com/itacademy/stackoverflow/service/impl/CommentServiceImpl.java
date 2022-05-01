@@ -3,13 +3,16 @@ package com.itacademy.stackoverflow.service.impl;
 import com.itacademy.stackoverflow.dto.comment.request.CommentRequest;
 import com.itacademy.stackoverflow.dto.comment.response.CommentResponse;
 import com.itacademy.stackoverflow.dto.discussion.response.DiscussionResponse;
+import com.itacademy.stackoverflow.dto.file.request.FileRequest;
 import com.itacademy.stackoverflow.dto.file.response.FileResponse;
 import com.itacademy.stackoverflow.entity.*;
+import com.itacademy.stackoverflow.mapper.CommentMapper;
 import com.itacademy.stackoverflow.mapper.DiscussionMapper;
+import com.itacademy.stackoverflow.mapper.FileMapper;
 import com.itacademy.stackoverflow.repository.*;
 import com.itacademy.stackoverflow.service.CommentService;
-import com.itacademy.stackoverflow.service.DiscussionCommentService;
 import com.itacademy.stackoverflow.service.FileCommentService;
+import com.itacademy.stackoverflow.service.FileService;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -27,9 +30,9 @@ public class CommentServiceImpl implements CommentService {
     CommentRepository repository;
 
     final
-    DiscussionCommentService discussionCommentService;
+    DiscussionCommentServiceImpl discussionCommentService;
 
-    final FileCommentService fileCommentService;
+    final FileCommentService commentService;
 
     final
     LikeCommentRepository likeCommentRepository;
@@ -41,15 +44,16 @@ public class CommentServiceImpl implements CommentService {
     PostRepository postRepository;
 
 
+
     @Override
     public CommentResponse save(CommentRequest commentRequest) {
         CommentEntity commentEntity = repository
                 .save(CommentEntity.builder()
                         .post(postRepository.getById(commentRequest.getPostId()))
                         .user(userRepository.getById(commentRequest.getUserId())).build());
-        discussionCommentService.save(commentRequest.getDiscussionRequests(), commentEntity);
+        discussionCommentService.save(commentRequest.getDiscussionRequests(),commentEntity);
 
-        List<FileResponse> fileResponses = fileCommentService.save(commentRequest.getMultipartFiles(), commentEntity);
+        List<FileResponse> fileResponses = commentService.save(commentRequest.getMultipartFiles(),commentEntity);
 
         return CommentResponse.builder()
                 .postId(commentRequest.getPostId())
@@ -86,41 +90,9 @@ public class CommentServiceImpl implements CommentService {
 
             commentResponse.get(i).setDiscussion(discussionResponses);
 
-            commentResponse.get(i).setMultipartFiles(fileCommentService.getByCommentId(commentResponse.get(i).getId()));
+            commentResponse.get(i).setMultipartFiles(commentService.getByPostId(commentResponse.get(i).getId()));
 
         }
-        return commentResponse;
-    }
-
-
-    @Override
-    public List<CommentResponse> getByUserId(Long id) {
-
-        List<CommentEntity> commentEntities = repository.findByUserId(id);
-        List<CommentResponse> commentResponse = new ArrayList<>();
-
-        for (CommentEntity commentEntity : commentEntities) {
-            commentResponse
-                    .add(CommentResponse.builder()
-                            .id(commentEntity.getId())
-                            .userId(commentEntity.getUser().getId())
-                            .postId(commentEntity.getPost().getId())
-                            .build());
-        }
-
-        for (int i = 0; i < commentResponse.size(); i++) {
-            commentResponse.get(i)
-                    .setCountLike(likeCommentRepository
-                            .countLikeCommentEntityById(commentResponse.get(i).getId()));
-
-            List<DiscussionResponse> discussionResponses = discussionCommentService.getByCommentId(commentResponse.get(i).getId());
-
-            commentResponse.get(i).setDiscussion(discussionResponses);
-
-            commentResponse.get(i).setMultipartFiles(fileCommentService.getByCommentId(commentResponse.get(i).getId()));
-
-        }
-
         return commentResponse;
     }
 
@@ -133,20 +105,8 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public CommentResponse delete(Long id) {
-        CommentEntity commentEntity = repository.getById(id);
-        discussionCommentService.deleteAllDiscussionByCommentId(commentEntity.getId());
-        fileCommentService.deleteAllFileByCommentId(commentEntity.getId());
-        repository.delete(commentEntity);
-        return CommentResponse.builder().build();
+        return null;
     }
 
-    @Override
-    public Boolean deleteAllCommentsByPostId(Long id) {
-        List<CommentEntity> commentEntities = repository.findAllCommentsByPostId(id);
-        for (CommentEntity commentEntity: commentEntities){
-             repository.delete(commentEntity);
-        }
-        return true;
-    }
 
 }
