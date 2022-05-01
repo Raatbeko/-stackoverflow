@@ -36,10 +36,13 @@ public class PostController {
         return postService.findById(id);
     }
 
+    @DeleteMapping("{id-comment}/delete-comment")
+    public CommentResponse deleteComment(@PathVariable("id-comment") Long id){
+        return commentService.delete(id);
+    }
 
     @DeleteMapping("{id-post}/delete-post")
-    public PostResponse delete(@PathVariable("id-post") Long id,
-                               @RequestBody PostRequest postRequest) {
+    public PostResponse deletePost(@PathVariable("id-post") Long id) {
         return postService.delete(id);
     }
 

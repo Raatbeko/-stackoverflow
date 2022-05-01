@@ -107,6 +107,7 @@ public class PostServiceImpl implements PostService {
         discussionPostService.deleteAllDiscussionByPostId(postEntity.getId());
         filePostService.deleteAllFileByPostId(postEntity.getId());
         commentService.deleteAllCommentsByPostId(postEntity.getId());
+        postRepository.delete(postEntity);
         return PostResponse.builder().build();
     }
 

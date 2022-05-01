@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface CommentService extends BaseService<CommentResponse, CommentRequest> {
     List<CommentResponse> getByPostId(Long id);
+    Boolean deleteAllCommentsByPostId(Long id);
+    List<CommentResponse> getByUserId(Long id);
 }
