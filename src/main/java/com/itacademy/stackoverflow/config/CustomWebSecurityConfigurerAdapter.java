@@ -19,12 +19,14 @@ import javax.sql.DataSource;
 
 
 @EnableWebSecurity
-@RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 class CustomWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
 
-    @Autowired
     private final DataSource dataSource;
+
+    public CustomWebSecurityConfigurerAdapter(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth)throws Exception{
@@ -51,6 +53,7 @@ class CustomWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
 
                 .antMatchers(HttpMethod.POST, "users/register").permitAll()
+                .antMatchers(HttpMethod.POST,"post/add-post").hasRole("USER")
                 .and()
                 .httpBasic();
     }

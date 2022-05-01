@@ -13,10 +13,7 @@ import org.mapstruct.factory.Mappers;
 import java.util.List;
 
 @Mapper(componentModel = "spring")
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public interface CommentMapper {
-
-
 
      CommentMapper INSTANCE = Mappers.getMapper(CommentMapper.class);
 

@@ -4,24 +4,24 @@ import com.itacademy.stackoverflow.dto.discussion.request.DiscussionRequest;
 import com.itacademy.stackoverflow.dto.file.request.FileRequest;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.jackson.Jacksonized;
 
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
 import java.util.List;
 
+@Jacksonized //missing
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class PostRequest {
-    @NotNull
+
     String header;
 
-    @NotNull
     Long userId;
 
-    List<DiscussionRequest> discussionRequests = new ArrayList<>();
+    List<DiscussionRequest> discussionRequests ;
 
-    List<FileRequest> fileRequests = new ArrayList<>();
+    List<FileRequest> fileRequests;
 }

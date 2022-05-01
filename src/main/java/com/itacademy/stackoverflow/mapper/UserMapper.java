@@ -15,12 +15,7 @@ import java.util.List;
 @Mapper
 public interface UserMapper {
     UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
-
-   @Mappings(value = {
-           @Mapping(target = "", source = ""),
-           @Mapping(target = "", expression = ("java(test(userRequestDto))"))
-   })
-    UserEntity toUserEntity(UserRequest userRequestDto);
+    
 
     UserResponse toUserResponseDto(UserEntity user);
 
